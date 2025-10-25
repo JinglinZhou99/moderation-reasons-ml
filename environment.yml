@@ -1,0 +1,8 @@
+name: modreasons
+channels: [conda-forge, pytorch]
+dependencies:
+  - python=3.11
+  - pip
+  - pytorch::pytorch
+  - pip:
+      - -r requirements.txt

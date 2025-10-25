@@ -1,0 +1,2 @@
+{"text": "Shoot them now!", "labels": {"violence": 1, "sexual": 0, "hate": 0}}
+{"text": "Go back to your country or I will hurt you.", "labels": {"violence": 1, "sexual": 0, "hate": 1}}

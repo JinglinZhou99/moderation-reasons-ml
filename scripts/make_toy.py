@@ -1,0 +1,18 @@
+import jsonlines, os
+os.makedirs('data/samples', exist_ok=True)
+examples = [
+  {"text":"Go back to your country or I will hurt you.", "labels":{"violence":1,"sexual":0,"hate":1}},
+  {"text":"This is explicit porn.", "labels":{"violence":0,"sexual":1,"hate":0}},
+  {"text":"I will kill you tonight.", "labels":{"violence":1,"sexual":0,"hate":0}},
+  {"text":"Have a nice day!", "labels":{"violence":0,"sexual":0,"hate":0}},
+  {"text":"Shoot them now!", "labels":{"violence":1,"sexual":0,"hate":0}},
+  {"text":"You people are not welcome here.", "labels":{"violence":0,"sexual":0,"hate":1}},
+  {"text":"NSFW nude content detected.", "labels":{"violence":0,"sexual":1,"hate":0}},
+  {"text":"Go back to where you came from.", "labels":{"violence":0,"sexual":0,"hate":1}},
+  {"text":"This is an obscene explicit video.", "labels":{"violence":0,"sexual":1,"hate":0}},
+  {"text":"I will beat you up.", "labels":{"violence":1,"sexual":0,"hate":0}},
+]
+
+with jsonlines.open('data/samples/toy.jsonl','w') as w:
+  for e in examples: w.write(e)
+print('Wrote data/samples/toy.jsonl')
