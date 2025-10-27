@@ -15,7 +15,7 @@ Install dependencies into a virtual environment:
 ```powershell
 cd api
 python -m venv .venv
-.\.venv\Scriptsctivate
+.\.venv\Scripts\activate
 pip install -r requirements.txt
 # If you plan to serve BERT:
 pip install torch transformers python-multipart
