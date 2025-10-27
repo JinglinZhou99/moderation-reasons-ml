@@ -21,15 +21,15 @@ Ytr = np.array(Ytr); Yva = np.array(Yva)
 Xtr = vec.transform(Xtr_text)
 Xva = vec.transform(Xva_text)
 
-# 逐标签训练，处理“单一类别”标签
+
 estimators = []
 for j, label in enumerate(LABELS):
     yj = Ytr[:, j]
     uniq = np.unique(yj)
     if len(uniq) < 2:
-        # 单一类别，做常量预测器
+
         const = int(uniq[0])
-        # 给一个极端但可调阈值的概率（接近 0 或接近 1）
+
         p = 0.99 if const == 1 else 0.01
         estimators.append(("constant", p))
     else:
@@ -37,22 +37,22 @@ for j, label in enumerate(LABELS):
         clf.fit(Xtr, yj)
         estimators.append(("lr", clf))
 
-# 计算验证集概率矩阵 (N_val x n_labels)
+
 P = np.zeros((Xva.shape[0], len(LABELS)), dtype=float)
 for j, (kind, est) in enumerate(estimators):
     if kind == "constant":
         P[:, j] = est
     else:
         proba = est.predict_proba(Xva)
-        # 有些极端情况下会返回一维，稳妥转成二维
+
         if proba.ndim == 1:
-            # 只有一列概率，推断正类概率；保底用估计值
+
             P[:, j] = proba
         else:
-            # 取正类列
+
             P[:, j] = proba[:, 1]
 
-# 阈值搜索
+
 thr = {}
 preds = np.zeros_like(P, dtype=int)
 for j, label in enumerate(LABELS):
@@ -69,7 +69,7 @@ micro = f1_score(Yva, preds, average='micro', zero_division=0)
 macro = f1_score(Yva, preds, average='macro', zero_division=0)
 print({'micro_f1': round(float(micro),3), 'macro_f1': round(float(macro),3), 'thresholds': thr})
 
-# 保存成“与前端约定”的产物
+
 joblib.dump({"estimators": estimators, "vectorizer_path": args.vec}, os.path.join(args.outdir, 'model.joblib'))
 json.dump(thr, open(os.path.join(args.outdir, 'thresholds.json'), 'w'))
 json.dump({'labels': LABELS}, open(os.path.join(args.outdir, 'label_config.json'), 'w'))

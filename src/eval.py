@@ -1,4 +1,4 @@
-# src/eval.py（只改加载和预测部分）
+# src/eval.py
 import argparse, json, numpy as np, joblib
 from sklearn.metrics import f1_score, average_precision_score
 from datasets import load_split, LABELS
@@ -12,10 +12,10 @@ ap.add_argument('--out', default='models/lr/eval_lr.json')
 args = ap.parse_args()
 
 vec = joblib.load(args.vec)
-bundle = joblib.load(args.model)  # 这里是我们保存的 dict
+bundle = joblib.load(args.model) 
 estimators = bundle.get("estimators", None)
 if estimators is None:
-    # 兼容老格式（直接是 OneVsRest clf）
+
     clf = bundle
 else:
     clf = None
@@ -23,13 +23,13 @@ else:
 X_text, Y = load_split(args.split)
 Xv = vec.transform(X_text)
 
-# 计算概率矩阵
+
 if clf is not None:
-    # 旧格式：OneVsRest
+
     probs_list = clf.predict_proba(Xv)
     P = np.vstack([p[:,1] if p.ndim==2 else p for p in probs_list]).T
 else:
-    # 新格式：逐标签
+
     P = np.zeros((Xv.shape[0], len(LABELS)), dtype=float)
     for j, (kind, est) in enumerate(estimators):
         if kind == "constant":
