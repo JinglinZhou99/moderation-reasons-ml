@@ -1,0 +1,14 @@
+{
+  "micro_f1": 0.9333333333333333,
+  "macro_f1": 0.9285714285714285,
+  "ap": {
+    "violence": 1.0,
+    "sexual": 1.0,
+    "hate": 1.0
+  },
+  "thresholds": {
+    "violence": 0.5,
+    "sexual": 0.5,
+    "hate": 0.5
+  }
+}
