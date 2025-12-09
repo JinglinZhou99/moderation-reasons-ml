@@ -1,4 +1,4 @@
-# Moderation with Reasons — API (LR & BERT)
+# Moderation with Reasons
 
 FastAPI service that classifies text into **violence / sexual / hate**, returning per-label **probabilities** and **thresholded predictions**, plus simple **keyword-based reasons**.
 
@@ -225,3 +225,36 @@ curl "http://localhost:8000/metrics?model=bert"
 ```bat
 curl -F "file=@C:\path\to\texts.csv" -F "model=lr" http://localhost:8000/batch_predict
 ```
+
+## Start the Frontend (React)
+
+The UI talks to the API at http://localhost:8000 by default. You can change this with VITE_API_BASE.
+
+1) Setup & run (dev server)
+
+Windows / macOS / Linux
+
+cd ../app
+
+npm install
+npm run dev
+
+
+Open the URL printed by Vite (typically http://localhost:5173
+).
+
+The top-right Model dropdown lets you choose LR (fast) or BERT (slow).
+Make sure your API is running (see /health) and that it lists the model you select.
+
+## Train BERT
+
+Run this in your model workspace (where your data splits live), not in api/.
+
+PowerShell (single line)
+
+python .\src\train_bert.py --train data\splits\train.jsonl --val data\splits\val.jsonl --outdir models\bert --epochs 3 --bsz 8 --max_len 256
+
+
+macOS/Linux
+
+python ./src/train_bert.py --train data/splits/train.jsonl --val data/splits/val.jsonl --outdir models
